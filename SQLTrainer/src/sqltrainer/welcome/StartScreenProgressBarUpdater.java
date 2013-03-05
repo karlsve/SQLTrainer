@@ -11,7 +11,7 @@ package sqltrainer.welcome;
 public class StartScreenProgressBarUpdater implements Runnable {
     
     StartScreenProgressBarUpdateListener listener = null;
-    int step = 150;
+    int step = 0;
     
     public StartScreenProgressBarUpdater(StartScreenProgressBarUpdateListener listener) {
         this.listener = listener;

@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 public class StartScreen extends javax.swing.JFrame {
     
-    private int fooltimer = 20;
+    private int fooltimer = 10;
     private String[] text = {
         "Releasing air pressure.", 
         "Looking for porn on computer.", 
@@ -27,7 +27,11 @@ public class StartScreen extends javax.swing.JFrame {
         "Getting bank accounts",
         "Transfering money for payment.",
         "Fooling users.",
-        "Formatting C:"
+        "Formatting C:",
+        "Checking if CheckBoxes are over 9000!",
+        "Just running.",
+        "Deleting user.",
+        "Playing some ball."
     };
 
     StartScreenProgressBarUpdateListener listener = new StartScreenProgressBarUpdateListener() {
