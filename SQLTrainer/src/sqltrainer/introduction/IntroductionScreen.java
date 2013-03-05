@@ -4,17 +4,22 @@
  */
 package sqltrainer.introduction;
 
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author karlinsv
  */
-public class IntroductionScreen extends javax.swing.JFrame {
+public class IntroductionScreen extends javax.swing.JFrame  {
 
-    /**
-     * Creates new form IntroductionScreen
-     */
-    public IntroductionScreen() {
+    
+    
+    
+    public IntroductionScreen()  {
         initComponents();
+        printText();
     }
 
     /**
@@ -40,18 +45,18 @@ public class IntroductionScreen extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(800, 600));
 
         jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
         jTextArea1.setRows(5);
         jTextArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextArea1.setEnabled(false);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Kapitel1");
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Kapitel2");
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Kapitel3");
 
-        jButton4.setText("jButton4");
+        jButton4.setText("Kapitel4");
 
         jLabel2.setText("© S&M Production™");
 
@@ -69,7 +74,7 @@ public class IntroductionScreen extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(55, 55, 55)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addGap(54, 54, 54)
                         .addComponent(jButton4)
@@ -99,44 +104,8 @@ public class IntroductionScreen extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(IntroductionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(IntroductionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(IntroductionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(IntroductionScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new IntroductionScreen().setVisible(true);
-            }
-        });
-    }
+   
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -147,4 +116,34 @@ public class IntroductionScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+    private void printText() {
+        try {
+            FileReader reader = new FileReader("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Test.txt");
+            BufferedReader buffer = new BufferedReader(reader);
+
+            String text=buffer.readLine();
+            
+
+            while(text!=null)
+            {
+                this.jTextArea1.append(text);
+                this.jTextArea1.append("\n");
+                text=buffer.readLine();
+                this.jTextArea1.updateUI();
+                
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(IntroductionScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    
+    }
+
+
+
+
+
+
 }
