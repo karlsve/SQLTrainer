@@ -71,6 +71,7 @@ public class StartScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setAlwaysOnTop(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         setMaximumSize(new java.awt.Dimension(300, 150));
         setMinimumSize(new java.awt.Dimension(300, 150));
         setPreferredSize(new java.awt.Dimension(300, 150));
