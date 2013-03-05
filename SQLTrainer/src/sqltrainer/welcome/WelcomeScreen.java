@@ -4,6 +4,8 @@
  */
 package sqltrainer.welcome;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import sqltrainer.exercises.ExerciseScreen;
 import sqltrainer.introduction.IntroductionScreen;
 
@@ -21,6 +23,8 @@ public class WelcomeScreen extends javax.swing.JFrame {
      */
     public WelcomeScreen() {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((screenSize.width/2)-(this.getWidth()/2), (screenSize.height/2)-(this.getHeight()/2));
     }
 
     /**

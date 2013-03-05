@@ -4,7 +4,7 @@
  */
 package sqltrainer;
 
-import sqltrainer.welcome.WelcomeScreen;
+import sqltrainer.welcome.StartScreen;
 
 /**
  *
@@ -12,7 +12,7 @@ import sqltrainer.welcome.WelcomeScreen;
  */
 public class SQLTrainer {
     
-    WelcomeScreen welcomeScreen = null;
+    StartScreen startScreen = null;
 
     /**
      * @param args the command line arguments
@@ -22,7 +22,12 @@ public class SQLTrainer {
     }
     
     public SQLTrainer() {
-        welcomeScreen = new WelcomeScreen();
-        welcomeScreen.setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                startScreen = new StartScreen();
+                startScreen.setVisible(true);
+            }
+        });
     }
 }

@@ -4,17 +4,57 @@
  */
 package sqltrainer.welcome;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author middelma
  */
 public class StartScreen extends javax.swing.JFrame {
+    
+    private int fooltimer = 20;
+    private String[] text = {
+        "Releasing air pressure.", 
+        "Looking for porn on computer.", 
+        "Relaxing at the beach.", 
+        "Checking whether user is blonde or not.", 
+        "Ruining someones life.",
+        "Booking flight to Phillipines.",
+        "Getting bank accounts",
+        "Transfering money for payment.",
+        "Fooling users.",
+        "Formatting C:"
+    };
 
+    StartScreenProgressBarUpdateListener listener = new StartScreenProgressBarUpdateListener() {
+
+        @Override
+        public void updateValue(int value) {
+            startProgressBar.setValue(value);
+            if(value%fooltimer==0) {
+                startProgressBar.setString(text[(int)(Math.random()*text.length)]);
+            }
+        }
+        
+        @Override
+        public void done() {
+            startMain();
+        }
+    };
+    
     /**
      * Creates new form StartScreen
      */
     public StartScreen() {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((screenSize.width/2)-(this.getWidth()/2), (screenSize.height/2)-(this.getHeight()/2));
+        initBackground();
+        initStartSequence();
     }
 
     /**
@@ -26,72 +66,67 @@ public class StartScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        backgroundImage = new sqltrainer.welcome.BackgroundImage();
+        startProgressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setMaximumSize(new java.awt.Dimension(300, 150));
+        setMinimumSize(new java.awt.Dimension(300, 150));
+        setPreferredSize(new java.awt.Dimension(300, 150));
+        setUndecorated(true);
 
-        jLabel1.setText("© S&M Production™");
+        javax.swing.GroupLayout backgroundImageLayout = new javax.swing.GroupLayout(backgroundImage);
+        backgroundImage.setLayout(backgroundImageLayout);
+        backgroundImageLayout.setHorizontalGroup(
+            backgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(startProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        );
+        backgroundImageLayout.setVerticalGroup(
+            backgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundImageLayout.createSequentialGroup()
+                .addGap(0, 301, Short.MAX_VALUE)
+                .addComponent(startProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 302, Short.MAX_VALUE)
-                .addComponent(jLabel1))
+            .addComponent(backgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 286, Short.MAX_VALUE)
-                .addComponent(jLabel1))
+            .addComponent(backgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new StartScreen().setVisible(true);
-            }
-        });
-    }
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private sqltrainer.welcome.BackgroundImage backgroundImage;
+    private javax.swing.JProgressBar startProgressBar;
     // End of variables declaration//GEN-END:variables
+    
+    private void initBackground() {
+        try {
+            BufferedImage background = ImageIO.read(getClass().getResourceAsStream("/resources/Productions.png"));
+            this.backgroundImage.setBackgroundImage(background);
+        } catch (IOException ex) {
+            System.out.println("Could not load splash image");
+        }
+    }
+
+    private void initStartSequence() {
+        this.startProgressBar.setMinimum(0);
+        this.startProgressBar.setMaximum(100);
+        this.startProgressBar.setStringPainted(true);
+        new Thread(new StartScreenProgressBarUpdater(listener)).start();
+    }
+
+    private void startMain() {
+        new WelcomeScreen().setVisible(true);
+        this.dispose();
+    }
+    
 }
