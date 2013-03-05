@@ -22,12 +22,7 @@ public class SQLTrainer {
     }
     
     public SQLTrainer() {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                welcomeScreen = new WelcomeScreen();
-                welcomeScreen.setVisible(true);
-            }
-        });
+        welcomeScreen = new WelcomeScreen();
+        welcomeScreen.setVisible(true);
     }
 }

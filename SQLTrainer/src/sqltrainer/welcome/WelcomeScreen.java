@@ -4,12 +4,18 @@
  */
 package sqltrainer.welcome;
 
+import sqltrainer.exercises.ExerciseScreen;
+import sqltrainer.introduction.IntroductionScreen;
+
 /**
  *
  * @author karlinsv
  */
 public class WelcomeScreen extends javax.swing.JFrame {
 
+    ExerciseScreen exerciseScreen = null;
+    IntroductionScreen introductionScreen = null;
+    
     /**
      * Creates new form WelcomeScreen
      */
@@ -40,9 +46,19 @@ public class WelcomeScreen extends javax.swing.JFrame {
         jLabelWelcome.setToolTipText("");
 
         jButtonIntroduction.setText("Einführung");
+        jButtonIntroduction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonIntroductionMouseClicked(evt);
+            }
+        });
 
         jButtonExercises.setText("Aufgaben");
         jButtonExercises.setToolTipText("");
+        jButtonExercises.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonExercisesMouseClicked(evt);
+            }
+        });
 
         jButtonCheckItOut.setText("Probieren");
         jButtonCheckItOut.setToolTipText("");
@@ -76,6 +92,16 @@ public class WelcomeScreen extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonExercisesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonExercisesMouseClicked
+        exerciseScreen = new ExerciseScreen();
+        exerciseScreen.setVisible(true);
+    }//GEN-LAST:event_jButtonExercisesMouseClicked
+
+    private void jButtonIntroductionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonIntroductionMouseClicked
+        introductionScreen = new IntroductionScreen();
+        introductionScreen.setVisible(true);
+    }//GEN-LAST:event_jButtonIntroductionMouseClicked
 
     /**
      * @param args the command line arguments
