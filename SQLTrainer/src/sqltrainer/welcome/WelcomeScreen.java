@@ -62,6 +62,7 @@ public class WelcomeScreen extends javax.swing.JFrame {
 
         jButtonCheckItOut.setText("Probieren");
         jButtonCheckItOut.setToolTipText("");
+        jButtonCheckItOut.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,12 +95,16 @@ public class WelcomeScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonExercisesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonExercisesMouseClicked
-        exerciseScreen = new ExerciseScreen();
+        if(exerciseScreen == null) {
+            exerciseScreen = new ExerciseScreen();
+        }
         exerciseScreen.setVisible(true);
     }//GEN-LAST:event_jButtonExercisesMouseClicked
 
     private void jButtonIntroductionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonIntroductionMouseClicked
-        introductionScreen = new IntroductionScreen();
+        if(introductionScreen == null) {
+            introductionScreen = new IntroductionScreen();
+        }
         introductionScreen.setVisible(true);
     }//GEN-LAST:event_jButtonIntroductionMouseClicked
 
