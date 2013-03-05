@@ -4,16 +4,30 @@
  */
 package sqltrainer;
 
+import sqltrainer.welcome.WelcomeScreen;
+
 /**
  *
  * @author karlinsv
  */
 public class SQLTrainer {
+    
+    WelcomeScreen welcomeScreen = null;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new SQLTrainer();
+    }
+    
+    public SQLTrainer() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                welcomeScreen = new WelcomeScreen();
+                welcomeScreen.setVisible(true);
+            }
+        });
     }
 }
