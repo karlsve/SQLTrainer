@@ -36,6 +36,7 @@ public class WelcomeScreen extends javax.swing.JFrame {
         jButtonIntroduction = new javax.swing.JButton();
         jButtonExercises = new javax.swing.JButton();
         jButtonCheckItOut = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SQLTrainer");
@@ -64,6 +65,8 @@ public class WelcomeScreen extends javax.swing.JFrame {
         jButtonCheckItOut.setToolTipText("");
         jButtonCheckItOut.setEnabled(false);
 
+        jLabel2.setText("© S&M Production™");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,6 +79,9 @@ public class WelcomeScreen extends javax.swing.JFrame {
                     .addComponent(jButtonExercises, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                     .addComponent(jButtonCheckItOut, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,7 +94,8 @@ public class WelcomeScreen extends javax.swing.JFrame {
                 .addComponent(jButtonExercises, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCheckItOut, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
 
         pack();
@@ -153,6 +160,7 @@ public class WelcomeScreen extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCheckItOut;
     private javax.swing.JButton jButtonExercises;
     private javax.swing.JButton jButtonIntroduction;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelWelcome;
     // End of variables declaration//GEN-END:variables
 }
