@@ -130,7 +130,6 @@ public class WelcomeScreen extends javax.swing.JFrame {
 
     private void initScreens() {
         startScreen = new StartScreen(this);
-        startScreen.setVisible(true);
         exerciseScreen = new ExerciseScreen();
         introductionScreen = new IntroductionScreen();
     }

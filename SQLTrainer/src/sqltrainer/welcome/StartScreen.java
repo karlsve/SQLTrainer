@@ -19,6 +19,8 @@ public class StartScreen extends javax.swing.JFrame {
     
     JFrame caller = null;
     private int fooltimer = 10;
+    private int maxsteps = 100;
+    private int pausetime = 50;
     private String[] text = {
         "Releasing air pressure.", 
         "Looking for porn on computer.", 
@@ -33,7 +35,12 @@ public class StartScreen extends javax.swing.JFrame {
         "Checking if CheckBoxes are over 9000!",
         "Just running.",
         "Deleting user.",
-        "Playing some ball."
+        "Playing some ball.",
+        "Preparing databases.",
+        "Releasing new credit card information.",
+        "Telling Marvin to do something.",
+        "Telling Sheldon to be quiet.",
+        "Replacing IE with shutdown command."
     };
 
     StartScreenProgressBarUpdateListener listener = new StartScreenProgressBarUpdateListener() {
@@ -61,6 +68,7 @@ public class StartScreen extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((screenSize.width/2)-(this.getWidth()/2), (screenSize.height/2)-(this.getHeight()/2));
         initBackground();
+        this.setVisible(true);
         initStartSequence();
     }
 
@@ -127,9 +135,10 @@ public class StartScreen extends javax.swing.JFrame {
 
     private void initStartSequence() {
         this.startProgressBar.setMinimum(0);
-        this.startProgressBar.setMaximum(100);
+        this.startProgressBar.setMaximum(maxsteps);
         this.startProgressBar.setStringPainted(true);
-        new Thread(new StartScreenProgressBarUpdater(listener)).start();
+        fooltimer = maxsteps/(text.length/2);
+        new Thread(new StartScreenProgressBarUpdater(pausetime, maxsteps, listener)).start();
     }
 
     private void startMain() {

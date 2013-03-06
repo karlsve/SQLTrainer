@@ -11,31 +11,31 @@ package sqltrainer.welcome;
 public class StartScreenProgressBarUpdater implements Runnable {
     
     StartScreenProgressBarUpdateListener listener = null;
-    int step = 0;
+    int max = 100;
+    int pause = 100;
     
-    public StartScreenProgressBarUpdater(StartScreenProgressBarUpdateListener listener) {
+    public StartScreenProgressBarUpdater(int pause, int max, StartScreenProgressBarUpdateListener listener) {
+        this.pause = pause;
+        this.max = max;
         this.listener = listener;
     }
 
     @Override
     public void run() {
-        for(int i = 0; i<=100; i++) {
-            if(listener!=null) {
-                listener.updateValue(i);
-            }
-            try {
-                Thread.sleep(step);
-            } catch (InterruptedException ex) {
-                System.out.println("interrupted");
-            }
-        }
         try {
-            Thread.sleep(step);
+            Thread.sleep(500);
+            for(int i = 0; i<=max; i++) {
+                if(listener!=null) {
+                    listener.updateValue(i);
+                }
+                Thread.sleep(pause);
+            }
+            if(listener!=null) {
+                listener.done();
+            }
+            Thread.sleep(pause);
         } catch (InterruptedException ex) {
             System.out.println("interrupted");
-        }
-        if(listener!=null) {
-            listener.done();
         }
     }
     
