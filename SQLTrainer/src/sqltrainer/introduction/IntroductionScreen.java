@@ -4,9 +4,13 @@
  */
 package sqltrainer.introduction;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -14,12 +18,12 @@ import java.util.logging.Logger;
  */
 public class IntroductionScreen extends javax.swing.JFrame  {
 
-    
+    private ChapterListItem current;
     
     
     public IntroductionScreen()  {
         initComponents();
-        printText();
+        initList();
     }
 
     /**
@@ -32,33 +36,74 @@ public class IntroductionScreen extends javax.swing.JFrame  {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jButtonBack = new javax.swing.JButton();
+        jButtonNext = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
 
         jLabel1.setText("© S&M Production™");
 
-        setMaximumSize(new java.awt.Dimension(800, 600));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setRows(5);
-        jTextArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jButton1.setText("Kapitel1");
-
-        jButton2.setText("Kapitel2");
-
-        jButton3.setText("Kapitel3");
-
-        jButton4.setText("Kapitel4");
+        setTitle("Zusammenfassung");
 
         jLabel2.setText("© S&M Production™");
+
+        jSplitPane1.setDividerLocation(80);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        jButtonBack.setText("Zurück");
+        jButtonBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonBackMouseClicked(evt);
+            }
+        });
+
+        jButtonNext.setText("Weiter");
+        jButtonNext.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonNextMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonNext)
+                        .addContainerGap())
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNext)
+                    .addComponent(jButtonBack))
+                .addContainerGap())
+        );
+
+        jSplitPane1.setRightComponent(jPanel1);
+
+        jList1.setModel(new DefaultListModel<ChapterListItem>());
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(jList1);
+
+        jSplitPane1.setLeftComponent(jScrollPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,32 +113,17 @@ public class IntroductionScreen extends javax.swing.JFrame  {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(55, 55, 55)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(54, 54, 54)
-                        .addComponent(jButton4)
-                        .addGap(25, 25, 25))
+                        .addGap(0, 496, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2))))
+                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jSplitPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2))
         );
@@ -101,25 +131,37 @@ public class IntroductionScreen extends javax.swing.JFrame  {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNextMouseClicked
+        updateItem(current.getNext());
+    }//GEN-LAST:event_jButtonNextMouseClicked
+
+    private void jButtonBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBackMouseClicked
+        updateItem(current.getLast());
+    }//GEN-LAST:event_jButtonBackMouseClicked
+
     /**
      * @param args the command line arguments
      */
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonBack;
+    private javax.swing.JButton jButtonNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JList jList1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 
-    private void printText() {
+    private void printText(ChapterListItem path) {
+        this.jTextArea2.setText("");
+        
         try {
-            FileReader reader = new FileReader("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Test.txt");
+            FileReader reader = new FileReader(path.getPath());
             BufferedReader buffer = new BufferedReader(reader);
 
             String text=buffer.readLine();
@@ -127,10 +169,10 @@ public class IntroductionScreen extends javax.swing.JFrame  {
 
             while(text!=null)
             {
-                this.jTextArea1.append(text);
-                this.jTextArea1.append("\n");
+                this.jTextArea2.append(text);
+                this.jTextArea2.append("\n");
                 text=buffer.readLine();
-                this.jTextArea1.updateUI();
+                this.jTextArea2.updateUI();
                 
             }
         } catch (Exception ex) {
@@ -140,10 +182,81 @@ public class IntroductionScreen extends javax.swing.JFrame  {
         
     
     }
+    
+  private void initList() {
+      jButtonNext.setEnabled(false);
+      jButtonBack.setEnabled(false);
+      ChapterListItem sav=null;
+        jList1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                JList list = (JList)evt.getSource();
+                if (evt.getClickCount() == 2) {
+                    int index = list.locationToIndex(evt.getPoint());
+                    ChapterListItem item = (ChapterListItem)list.getModel().getElementAt(index);
+                    updateItem(item);
+                } else if (evt.getClickCount() == 3) {   // Triple-click
+                    int index = list.locationToIndex(evt.getPoint());
 
+                }
+            }
+        });
+        DefaultListModel<ChapterListItem> list = (DefaultListModel<ChapterListItem>)jList1.getModel();
+        
+        ChapterListItem item = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Erzeugen_Tabelle.txt","Tabelle Erzeugen");
+        list.addElement(item);
+        item.setLast(null);
+        ChapterListItem item2 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Aendern_Tabelle.txt","Tabelle ändern");
+        list.addElement(item2);
+        item.setNext(item2);
+        item2.setLast(item);
+        ChapterListItem item3 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Primär-Schlüssel.txt","Primär- und Fremdschlüssel");
+        list.addElement(item3);
+        item2.setNext(item3);
+        item3.setLast(item2);
+        ChapterListItem item4 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Löschen.txt","Tabelle Löschen");
+        list.addElement(item4);
+        item3.setNext(item4);
+        item4.setLast(item3);
+        ChapterListItem item5 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Lesen Tabelle.txt","Tabelle Lesen");
+        list.addElement(item5);
+        item4.setNext(item5);
+        item5.setLast(item4);
+        ChapterListItem item6 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Aendern Tuppel.txt","Ändern von Tuppeln");
+        list.addElement(item6);
+        item5.setNext(item6);
+        item6.setLast(item5);
+        ChapterListItem item7 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Einfuegen Tuppel.txt","Einfügen von Tuppeln");
+        list.addElement(item7);
+        item6.setNext(item7);
+        item7.setLast(item6);
+        ChapterListItem item8 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Loeschen Tuppel.txt","Löschen von Tuppeln");
+        list.addElement(item8);
+        item7.setNext(item8);
+        item8.setLast(item7);
+        item8.setNext(null);
+    }
+  
 
-
-
-
-
+    private void updateItem(ChapterListItem item) {
+        if(item!=null) {
+            current = item;
+            printText(item);
+            if(current.getNext()!=null)
+            {
+                jButtonNext.setEnabled(true);
+            }
+            else
+            {
+                jButtonNext.setEnabled(false);
+            }
+            if(current.getLast()!=null)
+            {
+                jButtonBack.setEnabled(true);
+            }
+            else
+            {
+                jButtonBack.setEnabled(false);
+            }
+        }
+    }
 }
