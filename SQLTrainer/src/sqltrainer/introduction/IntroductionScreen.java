@@ -161,20 +161,20 @@ public class IntroductionScreen extends javax.swing.JFrame  {
         this.jTextArea2.setText("");
         
         try {
-            FileReader reader = new FileReader(path.getPath());
+            Reader reader = new InputStreamReader(new FileInputStream(path.getPath()),"UTF-8");
             BufferedReader buffer = new BufferedReader(reader);
 
-            String text=buffer.readLine();
+            String text;
             
 
-            while(text!=null)
+            while((text=buffer.readLine())!=null)
             {
                 this.jTextArea2.append(text);
                 this.jTextArea2.append("\n");
-                text=buffer.readLine();
                 this.jTextArea2.updateUI();
                 
             }
+            buffer.close();
         } catch (Exception ex) {
             Logger.getLogger(IntroductionScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
