@@ -15,6 +15,7 @@ import sqltrainer.introduction.IntroductionScreen;
  */
 public class WelcomeScreen extends javax.swing.JFrame {
 
+    StartScreen startScreen = null;
     ExerciseScreen exerciseScreen = null;
     IntroductionScreen introductionScreen = null;
     
@@ -23,6 +24,7 @@ public class WelcomeScreen extends javax.swing.JFrame {
      */
     public WelcomeScreen() {
         initComponents();
+        initScreens();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((screenSize.width/2)-(this.getWidth()/2), (screenSize.height/2)-(this.getHeight()/2));
     }
@@ -118,48 +120,6 @@ public class WelcomeScreen extends javax.swing.JFrame {
         }
         introductionScreen.setVisible(true);
     }//GEN-LAST:event_jButtonIntroductionMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WelcomeScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WelcomeScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WelcomeScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WelcomeScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                new WelcomeScreen().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCheckItOut;
     private javax.swing.JButton jButtonExercises;
@@ -167,4 +127,11 @@ public class WelcomeScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelWelcome;
     // End of variables declaration//GEN-END:variables
+
+    private void initScreens() {
+        startScreen = new StartScreen(this);
+        startScreen.setVisible(true);
+        exerciseScreen = new ExerciseScreen();
+        introductionScreen = new IntroductionScreen();
+    }
 }

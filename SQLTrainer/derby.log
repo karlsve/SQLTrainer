@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Wed Mar 06 12:46:37 CET 2013:
+Booten von Derby Version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): Instanz a816c00e-013d-3f86-46aa-0000031e4078
+für Datenbankverzeichnis C:\Users\karlinsv\Documents\NetBeansProjects\SQLTrainer\SQLTrainer\SQLTrainer   mit Klassenladeprogrammn sun.misc.Launcher$AppClassLoader@69365360
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b10
+user.dir=C:\Users\karlinsv\Documents\NetBeansProjects\SQLTrainer\SQLTrainer
+derby.system.home=null
+Das Ladeprogramm für Datenbankklassen wurde gestartet - derby.database.classpath=''

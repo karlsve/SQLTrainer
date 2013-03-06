@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 
 /**
  *
@@ -16,6 +17,7 @@ import javax.imageio.ImageIO;
  */
 public class StartScreen extends javax.swing.JFrame {
     
+    JFrame caller = null;
     private int fooltimer = 10;
     private String[] text = {
         "Releasing air pressure.", 
@@ -53,7 +55,8 @@ public class StartScreen extends javax.swing.JFrame {
     /**
      * Creates new form StartScreen
      */
-    public StartScreen() {
+    public StartScreen(JFrame caller) {
+        this.caller = caller;
         initComponents();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((screenSize.width/2)-(this.getWidth()/2), (screenSize.height/2)-(this.getHeight()/2));
@@ -130,7 +133,7 @@ public class StartScreen extends javax.swing.JFrame {
     }
 
     private void startMain() {
-        new WelcomeScreen().setVisible(true);
+        this.caller.setVisible(true);
         this.dispose();
     }
     

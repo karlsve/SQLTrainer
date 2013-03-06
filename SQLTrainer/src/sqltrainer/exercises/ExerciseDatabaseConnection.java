@@ -4,12 +4,18 @@
  */
 package sqltrainer.exercises;
 
-import java.io.DataInputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,14 +34,14 @@ public class ExerciseDatabaseConnection {
     private void init() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            driverLoaded=true;
+            driverLoaded = true;
         } catch (ClassNotFoundException ex) {
             driverLoaded = false;
-            System.out.println("Could not load driver.");
+            ex.printStackTrace();
         }
     }
     
-    private void connect() {
+    public void connect() {
         if(driverLoaded && conn == null) {
             try {
                 conn = DriverManager.getConnection("jdbc:derby:SQLTrainer;create=true","trainer","trainer");
@@ -45,10 +51,11 @@ public class ExerciseDatabaseConnection {
         }
     }
     
-    private void disconnect() {
+    public void disconnect() {
         if(conn != null) {
             try {
                 conn.close();
+                conn = null;
             } catch (SQLException ex) {
                 System.out.println("Could not disconnect from database.");
             }
@@ -58,15 +65,101 @@ public class ExerciseDatabaseConnection {
     private void initDatabase() {
         try {
             connect();
-            DataInputStream stream = (DataInputStream)getClass().getResourceAsStream("/resources/Productions.png");
-            String sql = stream.readUTF();
-            Statement statement = conn.createStatement();
-            statement.executeQuery(sql);
+            List<String> queries = getQueriesFromResource("/resources/ExerciseTable.sql");
+            executeMultipleQueries(queries);
             disconnect();
-        } catch (IOException ex) {
-            System.out.println("Could not read.");
-        } catch (SQLException ex) {
-            System.out.println("Could not create statement.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+    }
+    
+    public List<String> getTables() {
+        try {
+            DatabaseMetaData meta = conn.getMetaData();
+            ResultSet result = meta.getTables(null, null, null, new String[]{"TABLE"});
+            List<String> names = new ArrayList<String>();
+            while(result.next()) {
+                names.add(result.getString("TABLE_NAME"));
+            }
+            return names;
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet query(String sql) {
+        ResultSet result = null;
+        try {
+            Statement statement = conn.createStatement();
+            result = statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    public List<String> getQueriesFromFile(String file) {
+        List<String> queries = new ArrayList<String>();
+        return queries;
+    }
+
+    public List<String> getQueriesFromResource(String resource) {
+        List<String> queries = new ArrayList<String>();
+        try {
+            BufferedInputStream stream = (BufferedInputStream)getClass().getResourceAsStream(resource);
+            byte[] buffer = new byte[1024];
+            int read = 0;
+            String content = "";
+            while((read=stream.read(buffer)) > -1) {
+                content += new String(buffer, 0, read);
+            }
+            content = content.replaceAll("\n|\r", "");
+            content = content.replaceAll("  ", "");
+            for(String query : content.split(";")) {
+                if(queryExecutable(query)) {
+                    queries.add(query);
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return queries;
+    }
+    
+    public String getQueryFromResource(String resource, int i) {
+        List<String> queries = getQueriesFromResource(resource);
+        return queries.get(i);
+    }
+
+    public List<ResultSet> executeMultipleQueries(List<String> queries) {
+        List<ResultSet> result = new ArrayList<ResultSet>();
+        for(String query : queries) {
+            if(query.length() > 0) {
+                result.add(query(query));
+            }
+        }
+        return result;
+    }
+    
+    public boolean queryExecutable(String query) {
+        List<String> tables = getTables();
+        for(String table : tables) {
+            if(query.toLowerCase().contains("create table "+table.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<String> filterMultipleQueries(List<String> queries) {
+        List<String> toDelete = new ArrayList<String>();
+        for(String query : queries) {
+            if(queryExecutable(query)) {
+                toDelete.add(query);
+            }
+        }
+        queries.removeAll(toDelete);
+        return queries;
     }
 }
