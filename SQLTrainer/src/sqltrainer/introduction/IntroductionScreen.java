@@ -19,6 +19,8 @@ import javax.swing.JList;
 public class IntroductionScreen extends javax.swing.JFrame  {
 
     private ChapterListItem current;
+    private File file=null;
+    private String[] filenames;
     
     
     public IntroductionScreen()  {
@@ -161,20 +163,20 @@ public class IntroductionScreen extends javax.swing.JFrame  {
         this.jTextArea2.setText("");
         
         try {
-            FileReader reader = new FileReader(path.getPath());
+            Reader reader = new InputStreamReader(new FileInputStream(path.getPath()),"UTF-8");
             BufferedReader buffer = new BufferedReader(reader);
 
-            String text=buffer.readLine();
+            String text;
             
 
-            while(text!=null)
+            while((text=buffer.readLine())!=null)
             {
                 this.jTextArea2.append(text);
                 this.jTextArea2.append("\n");
-                text=buffer.readLine();
                 this.jTextArea2.updateUI();
                 
             }
+            buffer.close();
         } catch (Exception ex) {
             Logger.getLogger(IntroductionScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -183,10 +185,14 @@ public class IntroductionScreen extends javax.swing.JFrame  {
     
     }
     
-  private void initList() {
+  private void initList(){
+        try {
+            listFiles(".txt");
+        } catch (IOException ex) {
+            Logger.getLogger(IntroductionScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
       jButtonNext.setEnabled(false);
       jButtonBack.setEnabled(false);
-      ChapterListItem sav=null;
         jList1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
@@ -201,39 +207,19 @@ public class IntroductionScreen extends javax.swing.JFrame  {
             }
         });
         DefaultListModel<ChapterListItem> list = (DefaultListModel<ChapterListItem>)jList1.getModel();
-        
-        ChapterListItem item = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Erzeugen_Tabelle.txt","Tabelle Erzeugen");
-        list.addElement(item);
-        item.setLast(null);
-        ChapterListItem item2 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Aendern_Tabelle.txt","Tabelle ändern");
-        list.addElement(item2);
-        item.setNext(item2);
-        item2.setLast(item);
-        ChapterListItem item3 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Primär-Schlüssel.txt","Primär- und Fremdschlüssel");
-        list.addElement(item3);
-        item2.setNext(item3);
-        item3.setLast(item2);
-        ChapterListItem item4 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Löschen.txt","Tabelle Löschen");
-        list.addElement(item4);
-        item3.setNext(item4);
-        item4.setLast(item3);
-        ChapterListItem item5 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Lesen Tabelle.txt","Tabelle Lesen");
-        list.addElement(item5);
-        item4.setNext(item5);
-        item5.setLast(item4);
-        ChapterListItem item6 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Aendern Tuppel.txt","Ändern von Tuppeln");
-        list.addElement(item6);
-        item5.setNext(item6);
-        item6.setLast(item5);
-        ChapterListItem item7 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Einfuegen Tuppel.txt","Einfügen von Tuppeln");
-        list.addElement(item7);
-        item6.setNext(item7);
-        item7.setLast(item6);
-        ChapterListItem item8 = new ChapterListItem("C:\\Users\\middelma\\Documents\\NetBeansProjects\\SQLTrainer\\Skripte\\Loeschen Tuppel.txt","Löschen von Tuppeln");
-        list.addElement(item8);
-        item7.setNext(item8);
-        item8.setLast(item7);
-        item8.setNext(null);
+        if(filenames != null) {
+            ChapterListItem last = null;
+            for(String filename : filenames)
+            {
+                ChapterListItem item = new ChapterListItem("data\\Skripte\\"+filename, filename.replaceAll("\\.txt", ""));
+                if(last != null) {
+                    last.setNext(item);
+                    item.setLast(last);
+                }
+                list.addElement(item);
+                last = item;    
+            }
+        }
     }
   
 
@@ -259,4 +245,20 @@ public class IntroductionScreen extends javax.swing.JFrame  {
             }
         }
     }
+    
+       private void listFiles(final String extension) throws IOException{
+           file = new File("data\\Skripte\\");
+           filenames = file.list(new FilenameFilter() {
+               public boolean accept(File dir, String name){
+                   return name.endsWith(extension);
+               }
+           });
+           if(filenames != null) {
+                for(int i = 0; i  < filenames.length; i++){
+                    FileReader reader = new FileReader(filenames[i]);
+                    char[] data = new char[10];
+                    reader.read(data);
+                }
+           }
+       }
 }
