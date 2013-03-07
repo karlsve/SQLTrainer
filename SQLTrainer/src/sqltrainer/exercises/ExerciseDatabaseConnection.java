@@ -5,6 +5,8 @@
 package sqltrainer.exercises;
 
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -14,8 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -99,8 +99,37 @@ public class ExerciseDatabaseConnection {
         return result;
     }
     
-    public List<String> getQueriesFromFile(String file) {
+    public int insert(String sql) {
+        int result = 0;
+        try {
+            Statement statement = conn.createStatement();
+            result = statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    public List<String> getQueriesFromFile(File file) {
         List<String> queries = new ArrayList<String>();
+        try {
+            FileInputStream stream = new FileInputStream(file.getPath());
+            byte[] buffer = new byte[1024];
+            int read = 0;
+            String content = "";
+            while((read=stream.read(buffer)) > -1) {
+                content += new String(buffer, 0, read);
+            }
+            content = content.replaceAll("\n|\r", "");
+            content = content.replaceAll("  ", "");
+            for(String query : content.split(";")) {
+                if(queryExecutable(query)) {
+                    queries.add(query);
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         return queries;
     }
 

@@ -4,9 +4,14 @@
  */
 package sqltrainer.exercises;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -15,6 +20,54 @@ import javax.swing.DefaultListModel;
 public class ExerciseScreen extends javax.swing.JFrame {
 
     ExerciseDatabaseConnection conn = null;
+    
+    ExerciseNewTopicListener newTopicListener = new ExerciseNewTopicListener() {
+
+        @Override
+        public void onCancel(JFrame sender) {
+            sender.dispose();
+        }
+
+        @Override
+        public void onSubmit(JFrame sender, String title, String description) {
+            conn.connect();
+            conn.insert("INSERT INTO exTopics (title, description) VALUES ('"+title+"', '"+description+"')");
+            conn.disconnect();
+            updateTopicList();
+            sender.dispose();
+        }
+    
+    };
+    
+    NewExerciseListener newExerciseListener = new NewExerciseListener() {
+
+        @Override
+        public void onSubmitTextAnswer(JFrame sender, int topic, String title, String question, String answer) {
+            conn.connect();
+            conn.insert("INSERT INTO exExercises (title, question, answer, topicid) VALUES ('"+title+"', '"+question+"', '"+answer+"', "+topic+")");
+            conn.disconnect();
+            sender.dispose();
+        }
+
+        @Override
+        public void onSubmitMultipleChoiceAnswer(JFrame sender, int topic, String title, String question, String[] possibilities, int answer) {
+            String answers = "";
+            for(String possibility : possibilities) {
+                answers += possibility+"§";
+            }
+            answers += answer;
+            conn.connect();
+            conn.insert("INSERT INTO exExercises (title, question, answer, topicid) VALUES ('"+title+"', '"+question+"', '"+answers+"', "+topic+")");
+            conn.disconnect();
+            sender.dispose();
+        }
+
+        @Override
+        public void onCancel(JFrame sender) {
+            sender.dispose();
+        }
+        
+    };
     
     /**
      * Creates new form ExerciseScreen
@@ -35,9 +88,13 @@ public class ExerciseScreen extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         topicList = new javax.swing.JList();
-        difficultySlider = new javax.swing.JSlider();
         startButton = new javax.swing.JButton();
         copyrightLabel = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        configMenu = new javax.swing.JMenu();
+        runSQLMenuItem = new javax.swing.JMenuItem();
+        addTopicMenuItem = new javax.swing.JMenuItem();
+        addExerciseMenuItem = new javax.swing.JMenuItem();
 
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -49,31 +106,63 @@ public class ExerciseScreen extends javax.swing.JFrame {
         jScrollPane1.setViewportView(topicList);
 
         startButton.setText("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
 
         copyrightLabel.setText("© S&M Production™");
+
+        configMenu.setText("Konfiguration");
+
+        runSQLMenuItem.setText("SQL Script ausführen");
+        runSQLMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runSQLMenuItemActionPerformed(evt);
+            }
+        });
+        configMenu.add(runSQLMenuItem);
+
+        addTopicMenuItem.setText("Thema hinzufügen");
+        addTopicMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTopicMenuItemActionPerformed(evt);
+            }
+        });
+        configMenu.add(addTopicMenuItem);
+
+        addExerciseMenuItem.setText("Aufgabe hinzufügen");
+        addExerciseMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExerciseMenuItemActionPerformed(evt);
+            }
+        });
+        configMenu.add(addExerciseMenuItem);
+
+        jMenuBar1.add(configMenu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(difficultySlider, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(copyrightLabel))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(difficultySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -83,27 +172,59 @@ public class ExerciseScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void runSQLMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runSQLMenuItemActionPerformed
+        JFileChooser filechooser = new JFileChooser();
+        filechooser.setDialogTitle("SQL-Datei");
+        filechooser.setMultiSelectionEnabled(false);
+        filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filechooser.showOpenDialog(this);
+        File file = filechooser.getSelectedFile();
+        if(file != null) {
+            conn.connect();
+            List<String> queries = conn.getQueriesFromFile(file);
+            conn.executeMultipleQueries(queries);
+            conn.disconnect();
+        }
+    }//GEN-LAST:event_runSQLMenuItemActionPerformed
+
+    private void addTopicMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTopicMenuItemActionPerformed
+        new ExerciseNewTopicScreen(newTopicListener).setVisible(true);
+    }//GEN-LAST:event_addTopicMenuItemActionPerformed
+
+    private void addExerciseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExerciseMenuItemActionPerformed
+        new ExerciseNewExerciseScreen(this.getTopicList(), newExerciseListener).setVisible(true);
+    }//GEN-LAST:event_addExerciseMenuItemActionPerformed
+
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        new ExerciseRunScreen(conn, this.getSelectedTopics()).setVisible(true);
+    }//GEN-LAST:event_startButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addExerciseMenuItem;
+    private javax.swing.JMenuItem addTopicMenuItem;
+    private javax.swing.JMenu configMenu;
     private javax.swing.JLabel copyrightLabel;
-    private javax.swing.JSlider difficultySlider;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem runSQLMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JList topicList;
     // End of variables declaration//GEN-END:variables
 
     private void initExerciseList() {
         conn = new ExerciseDatabaseConnection();
-        this.initTopicList();
+        this.updateTopicList();
     }
 
-    private void initTopicList() {
+    private void updateTopicList() {
+        DefaultListModel<TopicItem> list = (DefaultListModel<TopicItem>)this.topicList.getModel();
+        list.clear();
         try {
             conn.connect();
-            DefaultListModel<TopicItem> list = (DefaultListModel<TopicItem>)this.topicList.getModel();
             String query = conn.getQueryFromResource("/resources/getTopics.sql", 0);
             ResultSet result = conn.query(query);
             while(result.next()) {
@@ -113,6 +234,21 @@ public class ExerciseScreen extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private List<TopicItem> getTopicList() {
+        DefaultListModel<TopicItem> list = (DefaultListModel<TopicItem>)this.topicList.getModel();
+        List<TopicItem> newlist = new ArrayList<TopicItem>();
+        for(int i = 0; i<list.size(); i++) {
+            TopicItem item = list.getElementAt(i);
+            newlist.add(item);
+        }
+        return newlist;
+    }
+
+    private List<TopicItem> getSelectedTopics() {
+        List<TopicItem> list = (ArrayList<TopicItem>)this.topicList.getSelectedValuesList();
+        return list;
     }
 
     
