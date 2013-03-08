@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Thu Mar 07 14:59:43 CET 2013:
-Booten von Derby Version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): Instanz a816c00e-013d-4526-7f26-000003212938
-für Datenbankverzeichnis C:\Users\karlinsv\Documents\NetBeansProjects\SQLTrainer\SQLTrainer\SQLTrainer   mit Klassenladeprogrammn sun.misc.Launcher$AppClassLoader@6d9bf996
+Wed Mar 06 13:21:33 CET 2013:
+Booten von Derby Version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): Instanz a816c00e-013d-3fa6-4259-00000326ee50
+für Datenbankverzeichnis C:\Users\karlinsv\Documents\NetBeansProjects\SQLTrainer\SQLTrainer\SQLTrainer   mit Klassenladeprogrammn sun.misc.Launcher$AppClassLoader@69365360
 
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_07-b10
-user.dir=C:\Users\middelma\Documents\NetBeansProjects\SQLTrainer\SQLTrainer
+user.dir=C:\Users\karlinsv\Documents\NetBeansProjects\SQLTrainer\SQLTrainer
 derby.system.home=null
 Das Ladeprogramm für Datenbankklassen wurde gestartet - derby.database.classpath=''
